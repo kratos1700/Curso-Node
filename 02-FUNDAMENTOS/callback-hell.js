@@ -42,9 +42,8 @@ const getEmpleado = (id, callback) => {
     } else {
         callback(`El empleado con id= ${id} no existe!`)
     }
-
-
 }
+
 const getSalario = (id, callback) =>{
     const salario = salarios.find( s => s.id === id)?.salario
     if(salario){
