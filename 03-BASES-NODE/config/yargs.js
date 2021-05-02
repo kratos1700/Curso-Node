@@ -3,7 +3,8 @@ const argv = require('yargs')
 .option('n', {
     alias: 'num',
     type: 'number',
-    demandOption: true
+    demandOption: true,
+    describe:'Es la base de la tabla de multiplicar'
 })
 .check((argv, options)=>{
 
@@ -17,7 +18,8 @@ const argv = require('yargs')
     alias:'listar',
     type :'boolean',
     demandOption: true,
-    default: false
+    default: false,
+    describe:'Muestra tabla de multiplicar'
 
 
 })

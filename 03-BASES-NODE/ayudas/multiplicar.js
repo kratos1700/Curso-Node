@@ -1,5 +1,6 @@
 //importamos el fs para poder escribir archivos
 const fs = require('fs');
+const colors = require('colors');
 
 const crearArchivo = async (num = 5, listar = false) => {
 
@@ -11,16 +12,16 @@ const crearArchivo = async (num = 5, listar = false) => {
     
         for (let i = 0; i <= 10; i++) {
             total = num * i;
-            salida  += (`${num} x ${i}= ${total}\n`)
+            salida  += (`${num} ${`x`.green} ${i} ${`=`.green} ${total}\n`)
     
         }
     
         // comprobamos el el balor de listar sea verdadero para imprimir , 
         //no imprimimos si es falso
         if(listar){
-            console.log('===================');
-            console.log(`   Tabla del ${num} `);
-            console.log('===================');
+            console.log('==================='.yellow);
+            console.log(`   Tabla del ${num} `.rainbow);
+            console.log('==================='.yellow);
             console.log(salida);
         }else{
             console.log('');
