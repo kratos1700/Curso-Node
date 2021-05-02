@@ -4,7 +4,9 @@
 
 // importamos las ayudas multiplicar
 const {crearArchivo}= require('./ayudas/multiplicar');
-const argv = require('yargs').argv;
+// importamos la config de yargs
+const argv = require('./config/yargs');
+
 
 console.clear();
 
@@ -13,10 +15,10 @@ console.clear();
 // descomponemos el argumento 3 desde el = i nos quedamos la parte de la derecha
 //const[ ,num] = arg3.split('=')
 
-console.log(process.argv);
-console.log(argv);
+//console.log(process.argv);
+//console.log(argv);
 
-console.log('num: yargs', argv.num);
+//console.log('num: yargs', argv.num);
 
 
 //console.log(num);
@@ -24,8 +26,8 @@ console.log('num: yargs', argv.num);
 
 //let num= 6;
 
-/*crearArchivo(num)
+crearArchivo(argv.n, argv.l)
 .then(nombreArchivo => console.log(nombreArchivo, 'creada'))
 .catch(err => console.log (err));
-*/
+
 

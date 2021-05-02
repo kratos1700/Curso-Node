@@ -1,13 +1,11 @@
 //importamos el fs para poder escribir archivos
 const fs = require('fs');
 
-const crearArchivo = async (num = 5) => {
+const crearArchivo = async (num = 5, listar = false) => {
 
     try {
 
-        console.log('===================');
-        console.log(`   Tabla del ${num} `);
-        console.log('===================');
+       
         let total = 0;
         let salida = '';
     
@@ -17,7 +15,17 @@ const crearArchivo = async (num = 5) => {
     
         }
     
-        console.log(salida);
+        // comprobamos el el balor de listar sea verdadero para imprimir , 
+        //no imprimimos si es falso
+        if(listar){
+            console.log('===================');
+            console.log(`   Tabla del ${num} `);
+            console.log('===================');
+            console.log(salida);
+        }else{
+            console.log('');
+        }
+        
 
 
        fs.writeFileSync(`tabala-${num}.txt`, salida);
