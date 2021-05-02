@@ -45,8 +45,34 @@ const getEmpleado = (id) => {
 
 }
 
-const id = 22;
+// funcion con callback para retornan un empleado por id
+const getSalario = (id) => {
 
+    // resolve=> callback que se ejecuta si todo funciona   
+    // reject=> callback que se ejecuta si hay algun error
+    const promesa = new Promise((resolve, reject) => {
+        // .find  arreglos, pasamos el id del parametro para buscar el id del arreglo
+        const salario = salarios.find((e) => e.id === id)?.salario
+
+        if (salario) {
+            resolve(salario);
+        } else {
+            reject(`El Salario con id= ${id} no existe!`)
+        }
+
+    });
+    return promesa
+
+}
+
+
+
+
+
+const id = 2;
+/*
+    No usar esta forma
+*/
 getEmpleado(id)
 .then(empleado => console.log(empleado))
 .catch(err => console.log(err));
@@ -54,3 +80,18 @@ getEmpleado(id)
 getSalario(id)
 .then(salario => console.log(salario))
 .catch(err => console.log(err));
+
+// PROMESAS EN CADENA
+
+// variable para guardar el nombre de empleado a la primera promesa
+let nombre;
+
+getEmpleado(id)
+.then( empleado => {
+    nombre = empleado;
+    // poniendo return nos permite usar otro .then
+   return getSalario(id)
+})
+.then(salario => console.log('El empleado:', nombre, 'tiene un salario de:', salario))
+// controlamos el error
+.catch (err => console.log(err));
