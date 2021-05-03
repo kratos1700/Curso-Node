@@ -1,5 +1,7 @@
 #
-Primer programa en NodeJs
+<h1> Primer programa en NodeJs </h1>
+ npm: yargs, colors
+ 
 ```
 Options:
       --help     Show help                                             [boolean]
