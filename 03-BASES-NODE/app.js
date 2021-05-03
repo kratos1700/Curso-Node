@@ -27,7 +27,8 @@ console.clear();
 
 //let num= 6;
 
-crearArchivo(argv.n, argv.l)
+// recordar de pasar los parametros creados en las opciones de yargs
+crearArchivo(argv.n, argv.l, argv.h)
 .then(nombreArchivo => console.log(nombreArchivo, 'creada' .green))
 .catch(err => console.log (err));
 

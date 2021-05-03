@@ -22,6 +22,11 @@ const argv = require('yargs')
     describe:'Muestra tabla de multiplicar'
 
 
+}).option('h',{
+    alias:'hasta',
+    type :'number',
+    default: 10,
+    describe:'Valor final de la tabla multiplicar'
 })
 .argv;
 
