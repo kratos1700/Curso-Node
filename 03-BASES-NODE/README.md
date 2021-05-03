@@ -1,7 +1,8 @@
 #
 <h1> Primer programa en NodeJs </h1>
  npm: yargs, colors
- 
+ para reconstruir las dependencias usar: <p> npm install </p>
+
 ```
 Options:
       --help     Show help                                             [boolean]
