@@ -1,7 +1,8 @@
 
 require ('colors');
+const { inquirerMenu } = require('./ayudas/inquirer');
 // la importacion de la funcion se hace auto  al llamar la funcion
-const { mostrarMenu, pausa } = require('./ayudas/mensajes');
+//const { mostrarMenu, pausa } = require('./ayudas/mensajes');
 
 
 console.clear();
@@ -14,7 +15,7 @@ const main = async() => {
     do{
         // con el await esperamos a que devolvamos 
         //la opcion seleccionada retornada por la promesa del menu
-      opt =  await  mostrarMenu();
+      opt =  await  inquirerMenu();
       // si la opcion es igual a 0 salimos directamente
      if(opt !=='0') await pausa();
 

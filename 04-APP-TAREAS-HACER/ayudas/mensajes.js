@@ -10,7 +10,7 @@ const mostrarMenu = () => {
     return new Promise((resolve => {
 
         // limpiamos consola y mostramos menu
-        console.clear()
+        console.clear();
         console.log('==========================='.green);
         console.log('   Seleccione una opción'.green);
         console.log('===========================\n'.green);
