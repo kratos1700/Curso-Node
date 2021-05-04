@@ -1,5 +1,6 @@
 
 require ('colors');
+const { guardarDB } = require('./ayudas/guardarArchivo');
 const { inquirerMenu,
         pausa,
         leerInput } = require('./ayudas/inquirer');
@@ -39,6 +40,8 @@ const main = async() => {
             
         }
 
+        // guardamos las tareas
+       // guardarDB(tareas.liastadoArray)
 
       await pausa();
       // si la opcion es igual a 0 salimos directamente
