@@ -22,7 +22,7 @@ const main = async() => {
 
        
         // con el await esperamos a que devolvamos 
-        //la opcion seleccionada retornada por la promesa del menu
+        //creamos el menu y guardamos la opcion seleccionada
       opt =  await  inquirerMenu();
         switch(opt){
             case '1':
@@ -33,7 +33,8 @@ const main = async() => {
                 break;
             case'2':
             // mostramos el listado de tareas
-            console.log(tareas._listado);
+            //console.log(tareas._listado);
+            console.log(tareas.liastadoArray)
                 break;
             
         }
@@ -51,3 +52,4 @@ const main = async() => {
 }
 
 main()
+
