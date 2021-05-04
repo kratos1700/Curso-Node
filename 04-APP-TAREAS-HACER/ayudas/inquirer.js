@@ -74,8 +74,33 @@ message:`Presione ${'enter'.green} para continuar`
     
     await inquirer.prompt(pregunt);
 }
+
+
+
+// funcion leer entradas
+const leerInput = async(message)=>{
+    const question=[
+        {
+            type:'input',
+            name:'desc',
+            message,
+            // validamos el valor 
+            validate(value){
+                if(value.length===0){
+                    return 'Porfavor ingrese un valor!'.red;
+                }
+                return true;
+            }
+        }
+    ];
+
+    const {desc} = await inquirer.prompt(question);
+    return desc;
+}
+
 // exportamos 
 module.exports = {
     inquirerMenu,
-    pausa
+    pausa,
+    leerInput
 }
