@@ -26,6 +26,15 @@ class Tareas{
        this._listado={};
    }
 
+   // funcion para retornar los elementos del array
+   cargarTareasFromArray(tareas = []){
+  
+      tareas.forEach(tarea => {
+        this._listado[tarea.id] = tarea;    
+      });
+       
+   }
+
 
    // funcion para crear tareas pasamos por parametro la desc
    crearTarea(desc = ''){
@@ -39,4 +48,4 @@ class Tareas{
 
 
 // para exportar la clase
-module.exports =Tareas;
+module.exports = Tareas;

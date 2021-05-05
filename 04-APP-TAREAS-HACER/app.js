@@ -1,6 +1,6 @@
 
 require ('colors');
-const { guardarDB } = require('./ayudas/guardarArchivo');
+const { guardarDB, leerDB } = require('./ayudas/guardarArchivo');
 const { inquirerMenu,
         pausa,
         leerInput } = require('./ayudas/inquirer');
@@ -19,6 +19,14 @@ const main = async() => {
     // instanciamos las tareas se guardara por uid, tipo firebase i mongodb
     const tareas = new Tareas();
 
+    const tareasDB = leerDB();
+
+    // cargamos los datos del archivo JSON
+    if (tareasDB){
+        tareas.cargarTareasFromArray(tareasDB);
+    }
+
+    
     do{
 
        
@@ -41,7 +49,7 @@ const main = async() => {
         }
 
         // guardamos las tareas
-       // guardarDB(tareas.liastadoArray)
+        guardarDB(tareas.liastadoArray)
 
       await pausa();
       // si la opcion es igual a 0 salimos directamente
