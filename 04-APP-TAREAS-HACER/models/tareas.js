@@ -1,5 +1,6 @@
 // importamos la clase tarea
 const Tarea = require('./tarea');
+require ('colors');
 
 // clase tareas
 class Tareas{
@@ -33,6 +34,24 @@ class Tareas{
         this._listado[tarea.id] = tarea;    
       });
        
+   }
+
+   // funcion para mostrar en pantalla las tareas
+   listadocompleto(){
+
+    // recorremos el arreglo de tareas
+    this.liastadoArray.forEach((tarea, i) =>{
+        // para iniciar el indice con el 1 en lugar de  0 y ponemos en color verde
+        const idx = `${i+1}`.green;
+        // desestructuramos la descripcion y completado en
+        const {desc, completadoEn} = tarea;
+        // comprobamos que completado  existe, asignamos el verde a completado y rojo a pendiente
+        const estado = ( completadoEn) ? 'Completada'.green : 'Pendiente'.red; 
+
+        console.log(`${idx}  ${desc} ::   ${estado}`);
+
+    });
+
    }
 
 
