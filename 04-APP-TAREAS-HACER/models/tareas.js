@@ -69,7 +69,7 @@ class Tareas {
                 if (completadoEn) {
                     contador += 1;
                     // mostramos la lista
-                    console.log(`${contador.toString().green}.  ${desc} ::   ${completadoEn}`);
+                    console.log(`${contador.toString().green}.  ${desc} ::   ${completadoEn.green}`);
                 }
 
             } else {
@@ -94,6 +94,29 @@ class Tareas {
             delete this._listado[id];
         }
 
+    }
+
+    // funcion para actualizar las tareas completadas
+    completarTarea(ids =[]){
+        // pasa por referencia asi modifica el objeto
+        // recorremos los ids
+        ids.forEach( id =>{
+            const tarea = this._listado[id];
+            // si no esta completado y esta marcado  le añadimos la fecha
+            if(!tarea.completadoEn){
+                tarea.completadoEn = new Date().toISOString();
+            }
+        });
+
+        this.liastadoArray.forEach(tarea=>{
+            // recorremos el arreglo para comprobar los ids si estan completados
+            if (!ids.includes(tarea.id)){
+                // tarea para quitar el completado
+                // cambiamos el valor a null del competado
+               this._listado[tarea.id].completadoEn= null;
+        
+            }
+        })
     }
 
 

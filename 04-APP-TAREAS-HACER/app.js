@@ -5,7 +5,8 @@ const { inquirerMenu,
   pausa,
   leerInput,
   listadoTareasBorrar,
-  confirmar } = require('./ayudas/inquirer');
+  confirmar,
+  mostrarListadoChecklist } = require('./ayudas/inquirer');
 const Tareas = require('./models/tareas');
 const Tarea = require('./models/tareas');
 // la importacion de la funcion se hace auto  al llamar la funcion
@@ -55,13 +56,16 @@ const main = async () => {
         tareas.listarPendientesCompletadas(false)
         break;
       case '5':
-        // mostramos el listado de tareas
-        tareas.listarPendientesCompletadas(false)
+        //completar o pendiente
+       const ids=  await  mostrarListadoChecklist(tareas.liastadoArray);
+       tareas.completarTarea(ids);
+
+
         break;
       case '6':
         // eliminar tarea, se tiene que esperar a que se cree el menu
         const id = await listadoTareasBorrar(tareas.liastadoArray);
-
+        // comprovamos el valor de la opcion si es diferente de 0
         if (id !== '0') {
           // guardamos la seleccion del usuario
           const confirmacion = await confirmar('Estas seguro de eliminar la tarea??'.red);
