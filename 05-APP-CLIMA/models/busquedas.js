@@ -11,7 +11,20 @@ class Busquedas {
 
     constructor() {
         //TODO: leer DB si existe
+        this.leerDB()
 
+    }
+    // funciona para poner el primer caracter en mayuscula
+    get historialCapitalizado(){
+
+        return this.historial.map(lugar => {
+            // partimos por los espacions
+            let palabras = lugar.split (' ')
+            // en cada palabra la primera la pasamos a mayuscula
+            palabras = palabras.map( p => p[0].toUpperCase() + p.substring(1));
+            // retornamos todo unido
+            return palabras.join(' ');
+        })
     }
 
 
@@ -101,6 +114,10 @@ class Busquedas {
         if(this.historial.includes(lugar.toLocaleLowerCase())){
             return;
         }
+
+        // con esto hacemos que solo guardamos 6 registros al archivo
+        this.historial= this.historial.splice(0,5);
+        
         // afegim al inici
         this.historial.unshift(lugar.toLocaleLowerCase());
 
@@ -120,6 +137,16 @@ class Busquedas {
     }
 
     leerDB(){
+
+        // comprobamos que no exista
+        if(!fs.existsSync(this.dbPath)){
+            return;
+        }
+
+        // si existe lo leemos
+        const info = fs.readFileSync(this.dbPath, {encoding: 'utf-8'});
+        const data = JSON.parse(info);
+        this.historial= data.historial;
 
     }
 
