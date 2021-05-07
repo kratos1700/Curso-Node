@@ -11,20 +11,34 @@ class Busquedas{
 
     }
 
+    // funcion para configurar los parametros  de la peticion a mapbox
+    get paramsMapbox(){
+        return {
+            // api key
+            'access_token': 'pk.eyJ1Ijoia3JhdG9zMTcwMCIsImEiOiJja29lNWw0cDUwMjQ2Mm9wMjU1aHpoeHVwIn0.G29OclmpqHa2Wh1xrQOZGw',
+            'limit': 5,
+            'language':'es'
+        }
+    }
+
     async ciudad(lugar = ''){
         try {
             
-        // peticion http
-        //console.log('ciudad',lugar)
+     
         // peticion hhttp 
-        const resp = await axios.get('https://reqres.in/api/users?page=2');
+        const instance = axios.create({
+            baseURL: `https://api.mapbox.com/geocoding/v5/mapbox.places/${lugar}.json`,
+            params: this.paramsMapbox
+        });
+        
+        const resp = await instance.get();
 
         console.log(resp.data);
 
-        return []; // retorna lugares
+        return [] // retorna lugares
             
         } catch (error) {
-            return [];
+           console.log(error)
         }
     }
 
