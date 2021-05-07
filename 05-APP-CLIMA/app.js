@@ -29,29 +29,37 @@ const main = async () => {
                 const lugares = await busquedas.ciudad(lugar);
                 // seleccionar lugar
                 const id = await listarLugares(lugares);
-
-                const lugarSel = lugares.find(l => l.id === id );
-                
-
+                // controlamos que el al pulsar 0 volvamos al menu
+                if (id === '0') continue;
 
 
+                const lugarSel = lugares.find(l => l.id === id);
 
+                // guardar bbdd
+                busquedas.guardarHistorial(lugarSel.nombre);
 
                 // clima
+                const clima = await busquedas.climaLugar(lugarSel.lat, lugarSel.lng);
 
                 // Mostrar ciudades
 
-
+                console.clear();
                 console.log('\nInformación de la ciudad\n'.green);
-                console.log('Ciudad:',lugarSel.nombre);
-                console.log('Lat: ',lugarSel.lat);
-                console.log('Lng',lugarSel.lng);
-                console.log('Temperatura:',);
-                console.log('Mínima: ',);
-                console.log('Máxima: ',);
+                console.log('Ciudad:', lugarSel.nombre.green);
+                console.log('Lat: ', lugarSel.lat);
+                console.log('Lng', lugarSel.lng);
+                console.log('El tiempo esta: ', clima.des.green);
+                console.log('Temperatura:', clima.temp);
+                console.log('Mínima: ', clima.min);
+                console.log('Máxima: ', clima.max);
                 break;
             case 2:
                 //TODO
+                busquedas.historial.forEach((lugar, i) => {
+                    const idx = `${i+1}.`.green;
+                    console.log(`${idx} ${lugar}`);
+                })
+
                 console.log(' Pulsada opcion 2'.red);
                 break;
 
@@ -69,3 +77,4 @@ const main = async () => {
 
 
 main();
+

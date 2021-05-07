@@ -1,0 +1,1 @@
+#aqui se guardara el historial de busqueda
