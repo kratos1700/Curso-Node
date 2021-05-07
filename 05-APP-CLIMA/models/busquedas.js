@@ -14,8 +14,8 @@ class Busquedas{
     // funcion para configurar los parametros  de la peticion a mapbox
     get paramsMapbox(){
         return {
-            // api key
-            'access_token': 'pk.eyJ1Ijoia3JhdG9zMTcwMCIsImEiOiJja29lNWw0cDUwMjQ2Mm9wMjU1aHpoeHVwIn0.G29OclmpqHa2Wh1xrQOZGw',
+            // api key configurado en archivo .env configurando el modulo dotenv
+            'access_token': process.env.MAPBOX_KEY,
             'limit': 5,
             'language':'es'
         }
@@ -33,9 +33,19 @@ class Busquedas{
         
         const resp = await instance.get();
 
-        console.log(resp.data);
+        // retornamos los datos con un objeto de forma implicita ({})
+        return resp.data.features.map( lugar =>({
+            id: lugar.id,
+            nombre: lugar.place_name,
+            lng: lugar.center[0],
+            lat: lugar.center[1],
 
-        return [] // retorna lugares
+
+        }));
+
+        console.log(resp.data.features);
+
+       
             
         } catch (error) {
            console.log(error)
