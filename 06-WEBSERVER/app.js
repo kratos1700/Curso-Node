@@ -1,11 +1,29 @@
 
 const express = require('express')
 const app = express()
-const port = 8080
+// para usar el archivo de variables
+require('dotenv').config();
+const port = process.env.PORT;
+
+// TODO para parciales 
+const hbs= require('hbs');
+
+// hbs para renderizar Handlebars
+app.set('view engine', 'hbs');
+hbs.registerPartials(__dirname + '/views/partials', function (err){})
 
 // para servir contenido estatico
 // esto tiene preerencia a las linias siguientes  app.get('/')...
 app.use(express.static('public'))
+
+
+app.get('/',  (req, res) => {
+    // pasamos opciones para renderizar al home
+    res.render('home', {
+        titulo: 'Curuso - Node.Js',
+        nombre: 'David'
+    });
+  });
  
 /* app.get('/',  (req, res) => {
   res.send('Hola Bixitooo')
