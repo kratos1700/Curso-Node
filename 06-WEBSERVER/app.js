@@ -21,7 +21,7 @@ app.get('/',  (req, res) => {
     // pasamos opciones para renderizar al home
     res.render('home', {
         titulo: 'Curuso - Node.Js',
-        nombre: 'David'
+        nombre: 'CREANDO PORFOLIO'
     });
   });
  
