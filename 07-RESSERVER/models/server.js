@@ -8,14 +8,27 @@ class Server {
         this.app = express();
         this.port =process.env.PORT;
 
+        //Middlewares , funciones añadir funcionalidades personalizadas
+            this.middlewares();
+
         // creamos las rutas
         this.rutas();
 
     }
+
+    middlewares(){
+
+        //con .use le decimos que es un middlewares
+        // directorio publico
+        this.app.use(express.static('public'));
+
+    }
+
+
     // funcion rutas
     rutas() {
 
-        this.app.get('/', (req, res) => {
+        this.app.get('/api', (req, res) => {
             res.send('Hello World')
         });
 
