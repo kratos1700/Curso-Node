@@ -8,5 +8,6 @@ cors
 dotenv
 colors
 bcryptjs
+express-validator
 ```
 

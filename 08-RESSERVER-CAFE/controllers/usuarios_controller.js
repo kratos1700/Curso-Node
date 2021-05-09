@@ -3,6 +3,8 @@ const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 // importamos el modelo usuario
 const Usuario = require('../models/usuario');
+// para recuperar el check de las rutas
+const { validationResult }= require ('express-validator');
 
 // funcion para usuarios
 const usuariosGet = (req = request, res = response) => {
@@ -21,14 +23,29 @@ const usuariosGet = (req = request, res = response) => {
 
 
 const usuariosPost = async (req, res = response) => {
+    // comprobamos que no haya errores en el check
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(400).json(errors);
+    }
 
     //desestructurando el body podemos seleccionar que datos queremos
     const { nombre, correo, password, rol } = req.body;
     // instanciamos  usuario pasando los datos enviados por el body
     // si no hay los campos en el modelo mongoose los ignora
     const usuario = new Usuario({ nombre, correo, password, rol });
+    
 
     // verificacion correo existe
+    const existeEmail = await Usuario.findOne({correo});
+    //si existe
+    if(existeEmail){
+        // retornamos un mensage 400
+        return res.status(400).json({
+            msg: 'Este correo ya esta en uso'
+        })
+
+    }
 
     // encriptar password
     // salt es el numero de vueltas de codificacion defecto 10
