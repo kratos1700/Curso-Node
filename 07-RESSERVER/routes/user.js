@@ -14,7 +14,8 @@ const rutas = Router();
 
 rutas.get('/', usuariosGet);
 
-rutas.put('/',usuariosPut);
+// asignamos :id a la ruta
+rutas.put('/:id',usuariosPut);
 
 rutas.post('/', usuariosPost);
 

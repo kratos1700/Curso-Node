@@ -1,9 +1,17 @@
-const {response} = require('express');
+const {response, request} = require('express');
 
 // funcion para usuarios
-const usuariosGet =(req, res = response) => {
+const usuariosGet =(req= request, res = response) => {
+    //querys
+    //const query = req.query
+    // desestructuramos argumentos
+    const{q, nombre, apikey} = req.query;
     res.json({
-        msg: 'get API - controlador'
+        msg: 'get API - controlador',
+       // query
+       q,
+       nombre,
+       apikey
     });
 }
 
@@ -24,8 +32,13 @@ const usuariosPost =(req, res = response) => {
 }
 
 const usuariosPut =(req, res = response) => {
+
+    // enviamos algun parametro 
+    const id= req.params.id;
+
     res.status(400).json({
-        msg: 'Put API - controlador'
+        msg: 'Put API - controlador',
+        id
     });
 }
 
