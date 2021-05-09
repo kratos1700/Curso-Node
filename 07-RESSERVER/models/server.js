@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 
 // clase server
 class Server {
@@ -18,6 +19,9 @@ class Server {
 
     middlewares(){
 
+        //CORS evita problemas en las peticiones
+        this.app.use(cors());
+
         //con .use le decimos que es un middlewares
         // directorio publico
         this.app.use(express.static('public'));
@@ -29,7 +33,28 @@ class Server {
     rutas() {
 
         this.app.get('/api', (req, res) => {
-            res.send('Hello World')
+            res.json({
+                msg: 'get API'
+            })
+        });
+
+        this.app.put('/api', (req, res) => {
+            res.status(400).json({
+                msg: 'put API'
+            })
+        });
+
+        this.app.post('/api', (req, res) => {
+            // .status especificamos el resultado
+            res.status(201).json({
+                msg: 'post API'
+            })
+        });
+
+        this.app.delete('/api', (req, res) => {
+            res.json({
+                msg: 'delete API'
+            })
         });
 
     }
