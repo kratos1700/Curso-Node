@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../database/config');
 
 // clase server
 class Server {
@@ -10,12 +11,18 @@ class Server {
         this.port =process.env.PORT;
         this.usuariosPath= '/api/usuarios';
 
+        // conectamos con la base de datos
+        this.cotenctarDB();
+
         //Middlewares , funciones añadir funcionalidades personalizadas
             this.middlewares();
 
         // creamos las rutas
         this.rutas();
 
+    }
+    async cotenctarDB(){
+        await dbConnection()
     }
 
     middlewares(){
@@ -43,7 +50,7 @@ class Server {
         // le pasamos el puerto configurado en .env
         this.app.listen(this.port, () => {
 
-            console.log(`Escuchando por el Puerto: ${this.port}`)
+            console.log(`Escuchando por el Puerto: ${this.port}`.cyan)
         })
     }
 
