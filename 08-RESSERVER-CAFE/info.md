@@ -7,5 +7,6 @@ mongoose
 cors
 dotenv
 colors
+bcryptjs
 ```
 
