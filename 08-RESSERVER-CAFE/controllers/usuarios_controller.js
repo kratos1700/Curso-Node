@@ -1,4 +1,6 @@
 const {response, request} = require('express');
+// importamos el modelo usuario
+const Usuario = require('../models/usuario');
 
 // funcion para usuarios
 const usuariosGet =(req= request, res = response) => {
@@ -16,18 +18,20 @@ const usuariosGet =(req= request, res = response) => {
 }
 
 
-const usuariosPost =(req, res = response) => {
-    // constante para recuperar informacion del body
-   // const body = req.body;
+const usuariosPost = async (req, res = response) => {
+   
    //desestructurando el body podemos seleccionar que datos queremos
-   const {nombre, edad}=req.body
+   const body = req.body;
+   // instanciamos  usuario pasando los datos enviados por el body
+   // si no hay los campos en el modelo mongoose los ignora
+   const usuario = new Usuario(body);
+   // guarda el usuario a la bbd
+   await usuario.save();
 
     // .status especificamos el resultado
     res.status(201).json({
         msg: 'Post API - controlador',
-        //body
-        nombre,
-        edad
+        usuario
     });
 }
 
