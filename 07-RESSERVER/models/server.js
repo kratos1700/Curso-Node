@@ -22,6 +22,8 @@ class Server {
 
         //CORS evita problemas en las peticiones
         this.app.use(cors());
+        // parseo y lectura de bodys. Es informacion recibida por un post
+        this.app.use(express.json());
 
         //con .use le decimos que es un middlewares
         // directorio publico

@@ -9,9 +9,17 @@ const usuariosGet =(req, res = response) => {
 
 
 const usuariosPost =(req, res = response) => {
+    // constante para recuperar informacion del body
+   // const body = req.body;
+   //desestructurando el body podemos seleccionar que datos queremos
+   const {nombre, edad}=req.body
+
     // .status especificamos el resultado
     res.status(201).json({
-        msg: 'Post API - controlador'
+        msg: 'Post API - controlador',
+        //body
+        nombre,
+        edad
     });
 }
 
