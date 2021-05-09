@@ -3,8 +3,7 @@ const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 // importamos el modelo usuario
 const Usuario = require('../models/usuario');
-// para recuperar el check de las rutas
-const { validationResult }= require ('express-validator');
+
 
 // funcion para usuarios
 const usuariosGet = (req = request, res = response) => {
@@ -23,11 +22,8 @@ const usuariosGet = (req = request, res = response) => {
 
 
 const usuariosPost = async (req, res = response) => {
-    // comprobamos que no haya errores en el check
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(400).json(errors);
-    }
+  // comprobamos que no haya errores en el check
+
 
     //desestructurando el body podemos seleccionar que datos queremos
     const { nombre, correo, password, rol } = req.body;
