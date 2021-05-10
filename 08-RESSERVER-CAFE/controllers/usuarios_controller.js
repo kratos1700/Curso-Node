@@ -7,24 +7,35 @@ const Usuario = require('../models/usuario');
 
 // funcion para recuperar usuarios
 const usuariosGet = async (req = request, res = response) => {
-    //querys
-    //const query = req.query
-    // desestructuramos argumentos
-    //  const { q, nombre, apikey } = req.query;
+    // destructuramos el limete para mostrar los registros
+    const { limite = 5, desde = 0 } = req.query;
+
+    // para mostrar los usuarios activos. Los registros no se borran de la bbd
+    // se cambian la bandera
+    const query = { estado: true };
+
     /*
         PAGINACION DE REGISTROS
     */
-    // destructuramos el limete para mostrar los registros
-    const {limite= 5, desde = 0}= req.query;
+
     // recuperamos todos los usuarios de la base de datos
-    // con .limit(n) muestra los n primeros registros. 
-    const usuarios = await Usuario.find()
-    //Para mostrar del n al limit
-    .skip(Number(desde))
-  //Para castear a numero ponemos Number(String)  
-    .limit(Number(limite));
+    // para evitar tiempos de espera elevados creamos una coleccion de promesas.
+    // se ejecutan las dos a la vez y si una falla , fallan todas
+    const [total, usuarios] = await Promise.all([
+        // se le pasa el query para que muestre solo el estado a true y no conte los false
+        Usuario.countDocuments(query),
+        Usuario.find(query)
+        //Para mostrar del n al limit
+        .skip(Number(desde))
+        // con .limit(n) muestra los n primeros registros. 
+        //Para castear a numero ponemos Number(String)  
+        .limit(Number(limite))
+
+    ])
 
     res.json({
+        total,
+        //totalRegistros,
         // retornamos todos los usuarios
         usuarios
     });
