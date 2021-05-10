@@ -45,6 +45,15 @@ const UsuarioSchema= Schema({
 
 });
 
+// sirve para extraer atributos que se guardan a la db y no queremos grardar
+// se sobrescribe el metodo toObject
+UsuarioSchema.methods.toJSON = function() {
+    // extraemo --v y password y el resto lo guardamos como usuario
+    const{__v, password, ...usuario} = this.toObject();
+    return usuario;
+
+}
+
 // se exporta en singular y se le pasa el esquema para crear la coleccion
 module.exports=model('Usuario',UsuarioSchema)
 
