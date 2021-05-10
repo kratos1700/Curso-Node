@@ -1,4 +1,5 @@
 const Role = require('../models/role');
+const Usuario = require('../models/usuario');
 
 // funcion para validar el rol
 const esRoleValido = async(rol = '' ) => {
@@ -10,6 +11,24 @@ const esRoleValido = async(rol = '' ) => {
     }
 }
 
+// funcion para validar el correo
+const emalExiste = async(correo='') =>{
+
+// verificacion correo existe
+const existeEmail = await Usuario.findOne({correo});
+//si existe
+if(existeEmail){
+    throw new Error(`Este correo ya ${correo}, esta en uso`)
+    // retornamos un mensage 400
+   /*  return res.status(400).json({
+        msg: `Este correo ya ${correo},esta en uso`
+    }) */
+
+}
+
+}
+
 module.exports = {
-    esRoleValido
+    esRoleValido,
+    emalExiste
 }

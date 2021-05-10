@@ -32,16 +32,7 @@ const usuariosPost = async (req, res = response) => {
     const usuario = new Usuario({ nombre, correo, password, rol });
     
 
-    // verificacion correo existe
-    const existeEmail = await Usuario.findOne({correo});
-    //si existe
-    if(existeEmail){
-        // retornamos un mensage 400
-        return res.status(400).json({
-            msg: 'Este correo ya esta en uso'
-        })
-
-    }
+    
 
     // encriptar password
     // salt es el numero de vueltas de codificacion defecto 10

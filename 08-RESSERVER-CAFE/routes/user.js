@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const {esRoleValido} = require('../helpers/db-validators');
+const {esRoleValido, emalExiste} = require('../helpers/db-validators');
 ///importamos las funciones del controlador
 const { usuariosGet,
         usuariosPut,
@@ -29,6 +29,8 @@ rutas.post('/', [
         check('nombre', 'El nombre es obligatorio.').not().isEmpty(),
         check('password', 'El password debe tener mas de 6 caracteres.').isLength({ min: 6 }),
         check('correo', 'El correo no es valido.').isEmail(),
+        // comprobamos que el correo no este en uso/registrado
+        check('correo').custom( emalExiste),
         //check('rol', 'No es un rol Valido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
         // comprobamos el rol valido 
         check('rol').custom( esRoleValido),
