@@ -4,7 +4,9 @@ const { check } = require('express-validator');
 
 
 const { validarCampos } = require('../middlewares/validar-campos');
-const {esRoleValido, emalExiste} = require('../helpers/db-validators');
+const {esRoleValido, 
+        emalExiste, 
+        existeUserPorId} = require('../helpers/db-validators');
 ///importamos las funciones del controlador
 const { usuariosGet,
         usuariosPut,
@@ -20,7 +22,17 @@ const rutas = Router();
 rutas.get('/', usuariosGet);
 
 // asignamos :id a la ruta
-rutas.put('/:id', usuariosPut);
+rutas.put('/:id',[
+        // validamos que sea un id de mongo
+        check('id','No es un ID valido' ).isMongoId(),
+        check('id').custom(existeUserPorId),
+        // comprobamos el rol valido 
+        check('rol').custom( esRoleValido),
+        //validamos los campps personalizados
+        validarCampos
+
+
+], usuariosPut);
 
 // el middlewares se pasa en el 1er parameto si se usan mas de 1 se pasa por arrego
 // comprobamos el correo con check de express validator, se le pasa que se quiere comprobar y el mensage

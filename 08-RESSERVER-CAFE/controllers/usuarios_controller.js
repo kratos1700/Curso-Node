@@ -5,24 +5,34 @@ const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 
 
-// funcion para usuarios
-const usuariosGet = (req = request, res = response) => {
+// funcion para recuperar usuarios
+const usuariosGet = async (req = request, res = response) => {
     //querys
     //const query = req.query
     // desestructuramos argumentos
-    const { q, nombre, apikey } = req.query;
+    //  const { q, nombre, apikey } = req.query;
+    /*
+        PAGINACION DE REGISTROS
+    */
+    // destructuramos el limete para mostrar los registros
+    const {limite= 5, desde = 0}= req.query;
+    // recuperamos todos los usuarios de la base de datos
+    // con .limit(n) muestra los n primeros registros. 
+    const usuarios = await Usuario.find()
+    //Para mostrar del n al limit
+    .skip(Number(desde))
+  //Para castear a numero ponemos Number(String)  
+    .limit(Number(limite));
+
     res.json({
-        msg: 'get API - controlador',
-        // query
-        q,
-        nombre,
-        apikey
+        // retornamos todos los usuarios
+        usuarios
     });
 }
 
 
 const usuariosPost = async (req, res = response) => {
-  // comprobamos que no haya errores en el check
+    // comprobamos que no haya errores en el check
 
 
     //desestructurando el body podemos seleccionar que datos queremos
@@ -30,10 +40,6 @@ const usuariosPost = async (req, res = response) => {
     // instanciamos  usuario pasando los datos enviados por el body
     // si no hay los campos en el modelo mongoose los ignora
     const usuario = new Usuario({ nombre, correo, password, rol });
-    
-
-    
-
     // encriptar password
     // salt es el numero de vueltas de codificacion defecto 10
     const salt = bcryptjs.genSaltSync(15);
@@ -51,15 +57,23 @@ const usuariosPost = async (req, res = response) => {
     });
 }
 
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async (req, res = response) => {
 
     // enviamos algun parametro 
-    const id = req.params.id;
+    const { id } = req.params;
+    // extraemos lo que no necesitamos
+    const { _id, password, google, correo, ...otrasPropiedades } = req.body;
+    //TODO validar contra bd
+    if (password) {
+        // salt es el numero de vueltas de codificacion defecto 10
+        const salt = bcryptjs.genSaltSync(15);
+        // le pasamos el password desestructurado del body y el num vueltas salt
+        otrasPropiedades.password = bcryptjs.hashSync(password, salt);
+    }
+    // actualiza el usuario buscado por id y lo guarda a la constante usuario
+    const usuario = await Usuario.findByIdAndUpdate(id, otrasPropiedades);
 
-    res.status(400).json({
-        msg: 'Put API - controlador',
-        id
-    });
+    res.json(usuario);
 }
 
 
