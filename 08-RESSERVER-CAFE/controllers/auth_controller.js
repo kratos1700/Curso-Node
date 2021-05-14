@@ -1,6 +1,8 @@
 const { response } = require("express");
+const bcryptjs= require('bcryptjs');
 
 const Usuario = require('../models/usuario');
+const { generarJWT } = require("../helpers/generar-jwt");
 
 
 
@@ -23,16 +25,31 @@ if(!usuario){
 }
 
     // si el user esta activo
+    // si el usuario esta borrado con estado false
+    if(!usuario.estado){
+        // retornamos un error 
+        return res.status(400).json({
+            msg:'Usuario / password no son correctos - Usuario no existe'
+        })
+    }
 
-
-    // verificar pass
+    // verificar pass , comparando el pass pasado por req y el del usuario de la db
+    const validPassword = bcryptjs.compareSync(password, usuario.password);
+    // si el pas es incorrecto
+    if(!validPassword){
+        // retornamos un error 
+        return res.status(400).json({
+            msg:'Usuario / password no son correctos - Error pas'
+        })
+    }
 
     // generar el JWT
-
-
+    // guardamos el id usuario
+    const token = await generarJWT(usuario.id);
 
     res.json({
-        msg:'Login ok'
+       usuario,
+       token
     })
 
 } catch (error) {

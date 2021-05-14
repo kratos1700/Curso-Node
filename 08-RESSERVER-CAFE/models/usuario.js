@@ -49,7 +49,9 @@ const UsuarioSchema= Schema({
 // se sobrescribe el metodo toObject
 UsuarioSchema.methods.toJSON = function() {
     // extraemo --v y password y el resto lo guardamos como usuario
-    const{__v, password, ...usuario} = this.toObject();
+    const{__v, password, _id, ...usuario} = this.toObject();
+    // modificamos el _id por el nombre de uid
+    usuario.uid = _id;
     return usuario;
 
 }
