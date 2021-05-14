@@ -9,7 +9,10 @@ class Server {
         // creamos la variable app
         this.app = express();
         this.port =process.env.PORT;
+        // creamos la direccion usuarios
         this.usuariosPath= '/api/usuarios';
+        // creamos la direccion de auth
+        this.authPath = '/api/auth'
 
         // conectamos con la base de datos
         this.cotenctarDB();
@@ -42,7 +45,11 @@ class Server {
     // funcion rutas
     rutas() {
         // creamos un Middlewares con user de routes
-        this.app.use(this.usuariosPath, require('../routes/user'))
+        // creamos la ruta para auth
+        this.app.use(this.authPath, require('../routes/auth'));
+        // creamos la ruta de usuarios
+        this.app.use(this.usuariosPath, require('../routes/user'));
+        
     }
 
     // funcion para arrancar el servidor por el puerto configurado
