@@ -88,10 +88,17 @@ const usuariosPut = async (req, res = response) => {
 }
 
 
-const usuariosDelete = (req, res = response) => {
-    res.json({
-        msg: 'delete API - controlador'
-    });
+const usuariosDelete = async (req, res = response) => {
+
+    const{id} =req.params;
+
+    // lo borramos fisicamente. no se aconseja de hacerlo ya que podemos perder integridad db
+//const usuario = await Usuario.findByIdAndDelete(id);
+
+// buscamos el usuario por id y lo eliminamos modificando el estado a false
+const usuario = await Usuario.findByIdAndUpdate(id,{estado:false});
+
+    res.json( usuario);
 }
 
 const usuariosPatch = (req, res = response) => {
@@ -109,3 +116,5 @@ module.exports = {
     usuariosPatch
 
 }
+
+

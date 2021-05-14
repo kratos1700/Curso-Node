@@ -54,7 +54,13 @@ rutas.post('/', [
 
 rutas.patch('/', usuariosPatch);
 
-rutas.delete('/', usuariosDelete);
+rutas.delete('/:id',[
+        // validamos que sea un id de mongo
+        check('id','No es un ID valido' ).isMongoId(),
+        check('id').custom(existeUserPorId),
+        validarCampos
+], usuariosDelete);
+
 
 
 
