@@ -4,6 +4,7 @@ const { check } = require('express-validator');
 
 
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 const {esRoleValido, 
         emalExiste, 
         existeUserPorId} = require('../helpers/db-validators');
@@ -55,6 +56,8 @@ rutas.post('/', [
 rutas.patch('/', usuariosPatch);
 
 rutas.delete('/:id',[
+        // validamos el token, sino es correcto no continua
+        validarJWT,
         // validamos que sea un id de mongo
         check('id','No es un ID valido' ).isMongoId(),
         check('id').custom(existeUserPorId),

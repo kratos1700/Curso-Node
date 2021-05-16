@@ -2,7 +2,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { login } = require('../controllers/auth_controller');
+
 const { validarCampos } = require('../middlewares/validar-campos');
+
 const { route } = require('./user');
 
 const rutas = Router();
@@ -20,3 +22,4 @@ rutas.post('/login', [
 
 
 module.exports = rutas;
+
