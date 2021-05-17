@@ -3,9 +3,15 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 
-const { validarCampos } = require('../middlewares/validar-campos');
+/* const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { isAdminRole, tieneRole } = require('../middlewares/validar-roles');
+const { isAdminRole, tieneRole } = require('../middlewares/validar-roles'); */
+// unificacion de los middlewares con un index.js Hace lo mismo que las linias comentadas anteriores
+const {validarCampos,
+        validarJWT,
+        isAdminRole,
+        tieneRole
+}= require ('../middlewares')
 
 const {esRoleValido, 
         emalExiste, 
@@ -63,6 +69,7 @@ rutas.delete('/:id',[
         validarJWT,  
         // comprobamos que el rol es de admin
        // isAdminRole,
+       // comprobamos que tenga un rol especifico
         tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
         // validamos que sea un id de mongo
         check('id','No es un ID valido' ).isMongoId(),
