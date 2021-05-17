@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { isAdminRole } = require('../middlewares/validar-roles');
+const { isAdminRole, tieneRole } = require('../middlewares/validar-roles');
 
 const {esRoleValido, 
         emalExiste, 
@@ -62,7 +62,8 @@ rutas.delete('/:id',[
         // validamos el token, sino es correcto no continua
         validarJWT,  
         // comprobamos que el rol es de admin
-        isAdminRole,
+       // isAdminRole,
+        tieneRole('ADMIN_ROLE', 'VENTAS_ROLE'),
         // validamos que sea un id de mongo
         check('id','No es un ID valido' ).isMongoId(),
         check('id').custom(existeUserPorId),
