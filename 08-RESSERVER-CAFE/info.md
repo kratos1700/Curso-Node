@@ -9,5 +9,6 @@ dotenv
 colors
 bcryptjs
 express-validator
+jsonwebtoken
 ```
 

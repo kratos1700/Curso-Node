@@ -5,7 +5,7 @@ const { login } = require('../controllers/auth_controller');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { route } = require('./user');
+//const { route } = require('./user');
 
 const rutas = Router();
 

@@ -12,7 +12,7 @@ const generarJWT = (uid = '') => {
 
         // firmamos el token, pasando la clave creada y se le puede pasar opciones 
         jwt.sign(payload, process.env.SECRETORPRIVATEKEY, {
-            expiresIn: '4h'
+            expiresIn: '3h'
         },
             // si da error al generar el token
             (err, token) => {

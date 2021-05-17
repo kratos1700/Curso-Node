@@ -37,13 +37,9 @@ const validarJWT =async (req = request, res = response, next) => {
             });
         }
 
-        
-
-
        // creamos una propiedad nueva en la request y se lo asignamos 
        req.usuario = usuario;
-
-      
+    
         // para continuar con el codigo siguiente
         next();
     } catch (error) {
@@ -54,10 +50,7 @@ const validarJWT =async (req = request, res = response, next) => {
 
     }
 
-
-
-
-    console.log(token);
+    //console.log(token);
 
 
 
