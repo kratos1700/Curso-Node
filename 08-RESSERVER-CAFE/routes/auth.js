@@ -1,7 +1,7 @@
 // desestructuramos express para usar Router
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { login } = require('../controllers/auth_controller');
+const { login, googleSingin } = require('../controllers/auth_controller');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -17,6 +17,14 @@ rutas.post('/login', [
         check('password', 'La contraseña es obligatoria').not().isEmpty(),
         validarCampos
 ], login );
+
+
+// creamos la ruta para recibir el token de google
+rutas.post('/google', [
+    // validamos que haya el mail y pass
+        check('id_token', 'El id_token es necesario').not().isEmpty(),
+        validarCampos
+], googleSingin );
 
 
 
