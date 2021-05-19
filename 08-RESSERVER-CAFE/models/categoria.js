@@ -28,5 +28,14 @@ const CategoriaSchema = Schema({
 
 });
 
+// sirve para extraer atributos que se guardan a la db y no queremos grardar
+// se sobrescribe el metodo toObject
+CategoriaSchema.methods.toJSON = function() {
+    // extraemos --v y estado y el resto lo guardamos como data
+    const{__v, estado, ...data} = this.toObject();
+    return data;
+
+}
+
 
 module.exports = model('Categoria', CategoriaSchema);

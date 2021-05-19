@@ -1,3 +1,4 @@
+const { Categoria } = require('../models');
 const Role = require('../models/role');
 const Usuario = require('../models/usuario');
 
@@ -41,11 +42,31 @@ const existeUserPorId = async (id) => {
     }
 
 }
+/**
+ * 
+ * VALIDADORES PARA CATEGORIAS
+ */
+
+// funcion para validar el id
+const existeCategoriaPorId = async (id) => {
+
+    // verificacion por id, buscamos si esta en la bbdd
+    const existeId = await Categoria.findById(id);
+    //si no existe
+    if (!existeId) {
+        throw new Error(`Este id: ${id}  no existe`)
+
+    }
+
+}
+
+
 
 
 
 module.exports = {
     esRoleValido,
     emalExiste,
-    existeUserPorId
+    existeUserPorId,
+    existeCategoriaPorId
 }
