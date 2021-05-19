@@ -8,27 +8,35 @@ class Server {
     constructor() {
         // creamos la variable app
         this.app = express();
-        this.port =process.env.PORT;
-        // creamos la direccion usuarios
-        this.usuariosPath= '/api/usuarios';
-        // creamos la direccion de auth
-        this.authPath = '/api/auth'
+        this.port = process.env.PORT;
+        /**
+         * Creamos elpath para las direcciones
+         */
+        this.path = {
+             // creamos la direccion de auth
+            auth: '/api/auth',
+              // creamos la direccion usuarios
+            usuarios: '/api/usuarios',
+            categorias: '/api/categorias',
+
+        }
+      
 
         // conectamos con la base de datos
         this.cotenctarDB();
 
         //Middlewares , funciones añadir funcionalidades personalizadas
-            this.middlewares();
+        this.middlewares();
 
         // creamos las rutas
         this.rutas();
 
     }
-    async cotenctarDB(){
+    async cotenctarDB() {
         await dbConnection()
     }
 
-    middlewares(){
+    middlewares() {
 
         //CORS evita problemas en las peticiones
         this.app.use(cors());
@@ -46,10 +54,12 @@ class Server {
     rutas() {
         // creamos un Middlewares con user de routes
         // creamos la ruta para auth
-        this.app.use(this.authPath, require('../routes/auth'));
+        this.app.use(this.path.auth, require('../routes/auth'));
         // creamos la ruta de usuarios
-        this.app.use(this.usuariosPath, require('../routes/user'));
-        
+        this.app.use(this.path.usuarios, require('../routes/user'));
+        // creamos la ruta de categorias
+        this.app.use(this.path.categorias, require('../routes/categorias'));
+
     }
 
     // funcion para arrancar el servidor por el puerto configurado
