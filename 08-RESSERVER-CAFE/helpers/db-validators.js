@@ -1,6 +1,6 @@
-const { Categoria } = require('../models');
+const { Usuario, Categoria, Producto } = require('../models');
 const Role = require('../models/role');
-const Usuario = require('../models/usuario');
+//const Usuario = require('../models/usuario');
 
 // funcion para validar el rol
 const esRoleValido = async (rol = '') => {
@@ -59,6 +59,23 @@ const existeCategoriaPorId = async (id) => {
     }
 
 }
+/**
+ * 
+ * VALIDADORES PARA PRODUCTOS
+ */
+
+
+ const existeProductosPorId = async (id) => {
+
+    // verificacion por id, buscamos si esta en la bbdd
+    const existeId = await Producto.findById(id);
+    //si no existe
+    if (!existeId) {
+        throw new Error(`Este id: ${id}  no existe`)
+
+    }
+
+}
 
 
 
@@ -68,5 +85,6 @@ module.exports = {
     esRoleValido,
     emalExiste,
     existeUserPorId,
-    existeCategoriaPorId
+    existeCategoriaPorId,
+    existeProductosPorId
 }

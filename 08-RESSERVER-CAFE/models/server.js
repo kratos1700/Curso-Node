@@ -13,14 +13,15 @@ class Server {
          * Creamos elpath para las direcciones
          */
         this.path = {
-             // creamos la direccion de auth
+            // creamos la direccion de auth
             auth: '/api/auth',
-              // creamos la direccion usuarios
+            // creamos la direccion usuarios
             usuarios: '/api/usuarios',
             categorias: '/api/categorias',
+            productos: '/api/productos'
 
         }
-      
+
 
         // conectamos con la base de datos
         this.cotenctarDB();
@@ -59,6 +60,8 @@ class Server {
         this.app.use(this.path.usuarios, require('../routes/user'));
         // creamos la ruta de categorias
         this.app.use(this.path.categorias, require('../routes/categorias'));
+        // creamos la ruta de productos
+        this.app.use(this.path.productos, require('../routes/productos'));
 
     }
 
