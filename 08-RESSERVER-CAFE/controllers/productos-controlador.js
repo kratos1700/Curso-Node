@@ -61,8 +61,12 @@ const crearProducto = async (req, res = response) => {
     // enviamos algun parametro 
     const { estado, usuario, ...body } = req.body;
 
+    // extraemos el nombre que viene en el body y lo hacemos en mayusculas
+    const nombre = req.body.nombre.toUpperCase();
+
     // funcion para comprobar el producto en bbdd
-    const productoDB = await Producto.findOne({ nombre: body.nombre });
+    const productoDB = await Producto.findOne({ nombre});
+    
 
     // si el producto existe mostramos error
     if (productoDB) {

@@ -15,8 +15,11 @@ class Server {
         this.path = {
             // creamos la direccion de auth
             auth: '/api/auth',
+            // creamos la direccion para buscar
+            buscar: '/api/buscar',
             // creamos la direccion usuarios
             usuarios: '/api/usuarios',
+            // creamos la direccion categorias y productos
             categorias: '/api/categorias',
             productos: '/api/productos'
 
@@ -56,6 +59,8 @@ class Server {
         // creamos un Middlewares con user de routes
         // creamos la ruta para auth
         this.app.use(this.path.auth, require('../routes/auth'));
+        // creamos la ruta de busqueda
+        this.app.use(this.path.buscar, require('../routes/buscar'));
         // creamos la ruta de usuarios
         this.app.use(this.path.usuarios, require('../routes/user'));
         // creamos la ruta de categorias
