@@ -22,13 +22,11 @@ const subirArchivo = (files, extensionesValidas = ['png', 'jpg', 'jpeg', 'gif'],
         const nombreCortado = archivo.name.split('.');
         const extension = nombreCortado[nombreCortado.length - 1];
 
-
-
+        // validar la extension
         if (!extensionesValidas.includes(extension)) {
             return reject(`La extension .${extension} no es permitida, use las siguientes extensiones: ${extensionesValidas}`);
 
         }
-
 
         // creamos el archivo concatenando el uuid generado auto con un punto i la extension
         const nombreTemp = uuidv4() + '.' + extension;

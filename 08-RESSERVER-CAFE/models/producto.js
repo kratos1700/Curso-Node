@@ -41,7 +41,10 @@
      disponible:{
          type:Boolean,
          default:true
-     }
+     },
+     imagen:{
+        type:String
+    }
  
  });
  

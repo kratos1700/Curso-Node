@@ -60,7 +60,8 @@ class Server {
         // Fileupload --CARGA DE ARCHIVOS
         this.app.use(fileUpload({
             useTempFiles : true,
-            tempFileDir : '/tmp/'
+            tempFileDir : '/tmp/',
+            createParentPath:true // habilitamos la creacion de carpetas si no estan creadas en la direccion
         }));
 
     }

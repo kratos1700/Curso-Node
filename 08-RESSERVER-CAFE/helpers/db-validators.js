@@ -65,7 +65,7 @@ const existeCategoriaPorId = async (id) => {
  */
 
 
- const existeProductosPorId = async (id) => {
+const existeProductosPorId = async (id) => {
 
     // verificacion por id, buscamos si esta en la bbdd
     const existeId = await Producto.findById(id);
@@ -74,6 +74,21 @@ const existeCategoriaPorId = async (id) => {
         throw new Error(`Este id: ${id}  no existe`)
 
     }
+
+}
+
+/**
+ * FUNCION DE VALIDACION DE COLECCIONES PERMITIDAS 
+ */
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+
+    // comprobamos que la coleccion pasada este dentro del arreglo de colecciones
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`La coleccion ${coleccion} no esta permitida, use las siguientes: ${colecciones}`);
+    }
+    // si no hay ningun error devolvemos true ya que hay coleccion
+    return true;
 
 }
 
@@ -86,5 +101,6 @@ module.exports = {
     emalExiste,
     existeUserPorId,
     existeCategoriaPorId,
-    existeProductosPorId
+    existeProductosPorId,
+    coleccionesPermitidas
 }
