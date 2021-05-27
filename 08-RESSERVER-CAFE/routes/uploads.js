@@ -3,7 +3,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { validarCampos, validarArchivoSubir}= require('../middlewares')
-const { cargarArchivo, actualizarImagen } = require('../controllers/uploads-controlador');
+const { cargarArchivo, actualizarImagen, mostrarImagen,actualizarImagenCloudinary } = require('../controllers/uploads-controlador');
 const { coleccionesPermitidas }= require('../helpers')
 
 const rutas = Router();
@@ -19,8 +19,18 @@ rutas.put('/:coleccion/:id', [
     // c = coleccion  => es un helper que le llamaremos coleccionesPermitidas, le pasamos la coleccion y las opciones
     check('coleccion').custom(c => coleccionesPermitidas (c, ['usuarios', 'productos'])),
     validarCampos
-], actualizarImagen);
+],  actualizarImagenCloudinary );
+// actualizarImagen);
 
+
+// ruta de peticiones get de imagenes
+rutas.get('/:coleccion/:id', [
+
+    check('id', 'El id debe ser de Mongo DB').isMongoId(),
+    // c = coleccion  => es un helper que le llamaremos coleccionesPermitidas, le pasamos la coleccion y las opciones
+    check('coleccion').custom(c => coleccionesPermitidas (c, ['usuarios', 'productos'])),
+    validarCampos
+],mostrarImagen )
 
 
 module.exports = rutas;
