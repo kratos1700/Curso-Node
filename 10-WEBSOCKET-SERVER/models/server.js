@@ -29,6 +29,10 @@ class Server {
         // creamos las rutas
         this.rutas();
 
+        // configuracion de sockets
+        this.sockets();
+
+
     }
 
 
@@ -57,6 +61,25 @@ class Server {
 
 
     }
+
+
+
+
+
+    // funcion de sockets
+    sockets() {
+
+        this.io.on('connection', socket =>{
+            console.log('Cliente Conectado!'.green)
+
+            socket.on('disconnect', ()=>{
+                console.log('Cliente Desconectado'.red)
+            })
+        })
+
+    }
+
+
 
     // funcion para arrancar el servidor por el puerto configurado
     listen() {
