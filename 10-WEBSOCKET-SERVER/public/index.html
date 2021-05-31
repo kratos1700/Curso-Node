@@ -12,15 +12,28 @@
 
 </head>
 
+
 <body class="container">
     <h1 class="mt-2">Cliente Socket</h1>
     <hr>
     <p>
         Server Status:
-        <span id ="lblOnline" class="text-success">Online</span>
-        <span id ="lblOffline" class="text-danger">Offline</span>
+        <span id="lblOnline" class="text-success">Online</span>
+        <span id="lblOffline" class="text-danger">Offline</span>
     </p>
+    <!--creas mos un label y un boton -->
+    <div class="row">
+        <div class="col">
+            <input type="text" id="txtMensaje" class="form-control">
+        </div>
+        <div class="col">
+            <button id="btnEnviar" class="btn btn-primary">
+                Enviar
 
+            </button>
+        </div>
+
+    </div>
 
 
     <script src="./socket.io/socket.io.js"></script>
