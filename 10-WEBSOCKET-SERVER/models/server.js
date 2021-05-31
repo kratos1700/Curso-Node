@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const colors = require('colors');
 
+const { socketController } = require('../sockets/controller');
+
+
 
 
 
@@ -69,25 +72,7 @@ class Server {
     // funcion de sockets
     sockets() {
 
-        this.io.on('connection', socket =>{
-            console.log('Cliente Conectado!'.green, socket.id)
-
-            socket.on('disconnect', ()=>{
-                console.log('Cliente Desconectado'.red, socket.id)
-            });
-
-            // escuchamos lo que envia el cliente desde el servidor, 
-            //el payload es donde esta la info que enviamos desde el html
-            socket.on('enviar-mensaje',(payload)=>{
-                // Ejemplo de recibir mensajes desde el front end
-                //console.log('Recibiendo mensajes del cliente ... : '.yellow )
-                //console.log(payload)
-                
-                //------ ENVIAR MENSAJES A OTROS CLIENTES--------------
-                this.io.emit('enviar-mensaje',payload);
-
-            })
-        })
+        this.io.on('connection', socketController)
 
     }
 
