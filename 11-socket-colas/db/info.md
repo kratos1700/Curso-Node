@@ -1,0 +1,1 @@
+# aqui se guardan los  tiquets generados en un archivo json
