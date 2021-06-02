@@ -3,7 +3,19 @@ const fs = require('fs');
 
 
 
+// clase ticket
+class Ticket {
 
+    constructor(numero, escritorio) {
+        this.numero = numero;
+        this.escritorio = escritorio;
+    }
+}
+
+
+
+
+// calse de control del ticket
 class TicketControl {
 
 
@@ -39,7 +51,7 @@ class TicketControl {
             this.ultimo = ultimo;
             this.ultimos4 = ultimos4;
         } else {
-            // es otro dia
+            // si es otro dia reinicializa la bbdd
             this.guardarDB();
 
         }
@@ -50,6 +62,52 @@ class TicketControl {
         const dbPath = path.join(__dirname, '../db/data.json');
         //guardamos el objeto  que convertimos a un json  al path
         fs.writeFileSync(dbPath, JSON.stringify(this.toJson));
+
+
+    }
+
+
+    // metodo para crear un  ticket añadiendo a un array 
+    siguiente() {
+        this.ultimo += 1;
+        // instanciamos un nuevo ticket, pasandolo como ultimo y ningun escritorio atendiendolo
+        const ticket = new Ticket(this.ultimo, null);
+        // añadimos el ticket al arreglo
+        this.tickets.push(ticket);
+
+        // guardamos en bd
+        this.guardarDB();
+
+        return 'Ticket ' + ticket.numero;
+
+    }
+
+
+    // funcion para atender un ticket
+    atenderTicket(escritorio) {
+
+        // si  no hay tickets
+        if (this.tickets.length === 0) {
+            return null;
+        }
+
+
+        // eliminamos el primer ticket del arreglo
+        const ticket = this.tickets.shift(); // this.tickets[0];
+        // se le asigna el ticket al escritorio
+        ticket.escritorio = escritorio;
+        // añadimos el ticket al arreglo al primer lugar
+        this.ultimos4.unshift(ticket);
+
+        if (this.ultimos4.length > 4) {
+            // eliminamos el ultimo elemento del arreglo y lo regresamos
+            this.ultimos4.splice(-1,1);
+        }
+        // guardamos 
+        this.guardarDB();
+
+        return ticket;
+
 
 
     }
