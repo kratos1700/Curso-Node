@@ -3,11 +3,17 @@ const TicketControl = require("../models/ticket-control");
 const ticketControl = new TicketControl();
 
 const socketController = (socket) => {
-
+    /**
+     * ESTOS EVENTOS SE LANZAN CUANDO UN CLIENTE SE CONECTA
+     */
     // mostramos el ultimo ticket
     socket.emit('ultimo-ticket', ticketControl.ultimo);
     // mostramos los ultimos 4 tiquets
     socket.emit('estado-actual', ticketControl.ultimos4);
+    // mostramos la cola de los tickets
+    socket.emit('tickets-pendientes', ticketControl.tickets.length)
+
+
 
     // escuchamos siguiente tiquet
     socket.on('siguiente-ticket', (payload, callback) => {
@@ -16,8 +22,9 @@ const socketController = (socket) => {
         const siguiente = ticketControl.siguiente();
         // enviamos siguiente
         callback(siguiente);
-
-        // TODO : notificar que hay un ticket pendiente
+        //notificar que hay un ticket pendiente
+        socket.broadcast.emit('tickets-pendientes', ticketControl.tickets.length) 
+        // TODO : 
 
     });
 
@@ -37,6 +44,9 @@ const socketController = (socket) => {
 
         // mostramos los ultimos 4 tiquets , emitiendo a todas las pantallas con el broadcast
         socket.broadcast.emit('estado-actual', ticketControl.ultimos4);
+        // mostramos la cola de los tickets
+        socket.emit('tickets-pendientes', ticketControl.tickets.length) //al escritorio actual que atiende
+        socket.broadcast.emit('tickets-pendientes', ticketControl.tickets.length) // a los demas escritorios
         // si el ticket no existe
         if (!ticket) {
             callback({

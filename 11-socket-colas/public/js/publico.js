@@ -20,6 +20,9 @@ const socket = io();
 socket.on('estado-actual', (payload) => {
     // desestructuramos el payload
     const [ticket1, ticket2, ticket3, ticket4] = payload;
+    // creamos una variable audio y le pasamos la ruta donde esta el archivo mp3
+    const audio = new Audio('./audio/new-ticket.mp3');
+    audio.play();
 
     // referenciamos los valores a los campos del html
     if(ticket1){
