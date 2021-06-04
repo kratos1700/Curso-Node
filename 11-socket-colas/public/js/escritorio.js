@@ -1,6 +1,8 @@
 // REFERENCIAS DEL ESCRITORIO.HTML
 const lblEscritorio = document.querySelector('h1');
 const btnAtender = document.querySelector('button');
+const lblTicket = document.querySelector('small');
+const divAlerta = document.querySelector('.alert');
 
 
 
@@ -23,6 +25,9 @@ const escritorio = searchParams.get('escritorio');
 //console.log({escritorio});
 // mostramos el escritorio
 lblEscritorio.innerText = escritorio;
+
+
+divAlerta.style.display= 'none';
 
 const socket = io();
 
@@ -53,7 +58,17 @@ socket.on('ultimo-ticket', (ultimo)=>{
 
 btnAtender.addEventListener( 'click', () => {
 
- 
+    // enviamos el objeto escritorio , y desestructuramos el payload (ok, ticket)
+ socket.emit('atender-ticket',{escritorio}, ({ok, ticket})=>{
+
+    if(!ok){
+        lblTicket.innerText='Nadie '
+        return divAlerta.style.display= '';
+    }
+    lblTicket.innerText='Ticket '+ ticket.numero;
+
+    
+ });
     
  /*    socket.emit( 'siguiente-ticket', null, ( ticket ) => {
         lblNuevoTicket.innerText= ticket;
