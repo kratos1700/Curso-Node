@@ -3,6 +3,7 @@ const cors = require('cors');
 const { dbConnection } = require('../database/config');
 
 const fileUpload = require('express-fileupload');
+const { socketController } = require('../sockets/socketController');
 
 // clase server
 class Server {
@@ -11,6 +12,15 @@ class Server {
         // creamos la variable app
         this.app = express();
         this.port = process.env.PORT;
+        // configuramos el socket para el server
+        this.server = require('http').createServer(this.app);
+        this.io = require('socket.io')(this.server)
+
+
+
+
+
+
         /**
          * Creamos el path para las direcciones
          */
@@ -39,6 +49,9 @@ class Server {
 
         // creamos las rutas
         this.rutas();
+
+        //Sockets -- para gestionar las escuchas de los sockets
+        this.sockets();
 
     }
     async cotenctarDB() {
@@ -85,10 +98,16 @@ class Server {
 
     }
 
+
+    // metodo para gestionar los sockets
+    sockets(){
+       this.io.on("connection",socketController)
+    }
+
     // funcion para arrancar el servidor por el puerto configurado
     listen() {
         // le pasamos el puerto configurado en .env
-        this.app.listen(this.port, () => {
+        this.server.listen(this.port, () => {
 
             console.log(`Escuchando por el Puerto: ${this.port}`.cyan)
         })
