@@ -1,9 +1,10 @@
 // desestructuramos express para usar Router
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { login, googleSingin } = require('../controllers/auth_controller');
+const { login, googleSingin, renovarToken } = require('../controllers/auth_controller');
 
-const { validarCampos } = require('../middlewares/validar-campos');
+
+const { validarCampos, validarJWT } = require('../middlewares');
 
 //const { route } = require('./user');
 
@@ -26,7 +27,8 @@ rutas.post('/google', [
         validarCampos
 ], googleSingin );
 
-
+// ruta para validar el JWT
+rutas.post('/', validarJWT, renovarToken);
 
 
 module.exports = rutas;

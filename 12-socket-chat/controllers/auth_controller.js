@@ -66,23 +66,23 @@ const login = async (req, res = response) => {
 
 // funcion para recibir el token de google
 const googleSingin = async (req, res = response) => {
-     // recuperamos el id_token de google
-     const { id_token } = req.body;
+    // recuperamos el id_token de google
+    const { id_token } = req.body;
 
     try {
-       
+
 
         ///recuperamos el usuario de goole
-        const {correo, nombre, imagen} = await googleVerify(id_token);
+        const { correo, nombre, imagen } = await googleVerify(id_token);
 
         // buscamos si existe el usuario por el correo
-        let usuario = await Usuario.findOne({correo});
-        if(!usuario){
+        let usuario = await Usuario.findOne({ correo });
+        if (!usuario) {
             // tenemos que crear el usuario
-            const data ={
+            const data = {
                 nombre,
                 correo,
-                password:':P',
+                password: ':P',
                 imagen,
                 google: true
 
@@ -94,7 +94,7 @@ const googleSingin = async (req, res = response) => {
 
         }
         // si el usuario en bbd esta borrado , estado :false
-        if( !usuario.estado){
+        if (!usuario.estado) {
             return res.status(401).json({
                 msg: 'Hable con el administrador, usuario bloqueado'
             });
@@ -105,14 +105,14 @@ const googleSingin = async (req, res = response) => {
 
         res.json({
             msg: 'Todo ok! google singin',
-            
-            
+            token
+
         });
 
     } catch (error) {
         res.status(400).json({
             msg: 'Token de google no valido',
-            
+
         })
     }
 
@@ -120,8 +120,27 @@ const googleSingin = async (req, res = response) => {
 
 }
 
+// funcion para generar un nuevo toquen
+const renovarToken = async (req, res = response) => {
+
+    // obtenemos el usuario de la request de validar-JWT
+    const { usuario } = req;
+
+    // generar un nuevo  JWT con el id de usuario
+    const token = await generarJWT(usuario.id);
+
+    // devolvemos el usuario
+    res.json({
+        usuario,
+        token
+    })
+
+
+}
+
 
 module.exports = {
     login,
-    googleSingin
+    googleSingin,
+    renovarToken
 }
