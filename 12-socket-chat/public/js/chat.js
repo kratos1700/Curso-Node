@@ -10,6 +10,14 @@ let usuario = null;
 let socket = null;
 
 
+// REFERENCIAS HTML
+
+const txtUid = document.querySelector('#txtUid')
+const txtMensaje= document.querySelector('#txtMensaje')
+const ulUsuarios= document.querySelector('#ulUsuarios')
+const ulMensajes= document.querySelector('#ulMensajes')
+const btnSalir= document.querySelector('#btnSalir')
+
 // funcion para validar el token del storage
 const validarJWT = async () => {
 
