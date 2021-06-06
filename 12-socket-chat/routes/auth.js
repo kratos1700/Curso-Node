@@ -28,7 +28,7 @@ rutas.post('/google', [
 ], googleSingin );
 
 // ruta para validar el JWT
-rutas.post('/', validarJWT, renovarToken);
+rutas.get('/', validarJWT, renovarToken);
 
 
 module.exports = rutas;
