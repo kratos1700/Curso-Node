@@ -35,6 +35,8 @@
         }
         // guardamos el token an el almacenamiento local
         localStorage.setItem('token', token);
+        // no redirecciona a la pantalla de chat
+        window.location= 'chat.html';
      })
      .catch(err => {
         console.log(err)
@@ -67,7 +69,8 @@
      // extraemos el valor del token
      .then (({token} ) =>{     
        // guardamos el token en el local storage
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', token);
+        window.location= 'chat.html';
      })
       .catch(console.log);
 

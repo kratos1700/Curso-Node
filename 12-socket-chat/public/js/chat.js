@@ -22,15 +22,33 @@ const validarJWT = async () => {
         throw new Error('No hay token en el servidor')
     }
 
-    const resp = await fetch( url, {
+    const resp = await fetch(url, {
         headers: { 'x-token': token }
     });
-    
-    
-    const { usuario: userDB, token: tokenDB} = await resp.json();
-    console.log(userDB,tokenDB);
+
+
+    const { usuario: userDB, token: tokenDB } = await resp.json();
+    console.log(userDB, tokenDB);
     // guardamos el nuevo token en el storage
     localStorage.setItem('token', tokenDB);
+    // guardamos los datos del usuario  a la variable
+    usuario = userDB;
+    // ponemos el nombre de usuario como nombre de la pagina web
+    document.title = usuario.nombre;
+
+    await conectarSocket();
+
+}
+
+// funcion para establecer la comunicacion al backend server
+const conectarSocket = async () => {
+    const socket = io({
+        // io nos permite enviar por parametros headers, le enviamos el token validado y guardado en el localstorage
+        'extraHeaders':{
+            'x-token': localStorage.getItem('token')
+        }
+    });
+
 }
 
 
@@ -42,6 +60,6 @@ const main = async () => {
 
 
 main();
-//const socket = io();
+//
 
 
