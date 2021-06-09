@@ -12,11 +12,11 @@ let socket = null;
 
 // REFERENCIAS HTML
 
-const txtUid = document.querySelector('#txtUid')
-const txtMensaje= document.querySelector('#txtMensaje')
-const ulUsuarios= document.querySelector('#ulUsuarios')
-const ulMensajes= document.querySelector('#ulMensajes')
-const btnSalir= document.querySelector('#btnSalir')
+const txtUid = document.querySelector('#txtUid');
+const txtMensaje = document.querySelector('#txtMensaje');
+const ulUsuarios = document.querySelector('#ulUsuarios');
+const ulMensajes = document.querySelector('#ulMensajes');
+const btnSalir = document.querySelector('#btnSalir');
 
 // funcion para validar el token del storage
 const validarJWT = async () => {
@@ -50,12 +50,61 @@ const validarJWT = async () => {
 
 // funcion para establecer la comunicacion al backend server
 const conectarSocket = async () => {
-    const socket = io({
+    socket = io({
         // io nos permite enviar por parametros headers, le enviamos el token validado y guardado en el localstorage
-        'extraHeaders':{
+        'extraHeaders': {
             'x-token': localStorage.getItem('token')
         }
     });
+
+    // disparamos los eventos cuando el usuario se conecta
+    // cuando nos conectamos
+    socket.on('connect', () => {
+        console.log('Sockets online');
+    });
+    // cuando nos desconectamos
+    socket.on('disconnect', () => {
+        console.log('Sockets offline');
+    });
+    // emitimos al server los mensajes recibidos y usuarios activos
+    // cuando recibimos mensajes
+    socket.on('recibir-mensajes', () => {
+
+    });
+    // para saber los usuarios activos y mostrarlos
+    socket.on('usuarios-activos', mostrarUsuarios);
+
+    //para recibir mensajes probados
+    socket.on('mensaje-privado', () => {
+
+    });
+
+
+
+}
+
+// funcion para mostrar los usuarios al html
+const mostrarUsuarios = (usuarios= []) => {
+    let userHtml = '';
+    //  recorremos los usuarios
+    usuarios.forEach(({nombre, uid} ) => {
+        // creamos una lista en html para mostrar los usuarios
+        userHtml += `
+      <li>
+        <p>
+            <h5 class="text-success">${nombre} </h5>
+            <span class="fs-6 text-muted">${uid} </span>
+        </p>
+
+      </li>
+      
+      
+      `;
+
+    });
+
+    // lo mostramos a chat.html
+    ulUsuarios.innerHTML = userHtml;
 
 }
 

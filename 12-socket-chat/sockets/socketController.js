@@ -1,22 +1,40 @@
 const { Socket } = require('socket.io');
-const { comprobarJWT } = require('../helpers')
+const { comprobarJWT } = require('../helpers');
+const { ChatMensajes } = require('../models');
 
+//creamos una instancia de chat mensajes
+const chatMensajes = new ChatMensajes();
 
-
-
-const socketController = async (socket) => {
+const socketController = async (socket = new Socket(), io) => {
 
     // mostramos en el cmd del server la info del token guardada en el localstorage
     //console.log(socket.handshake.headers['x-token']);
 
     // verificamos el token cada vez que el cliente se conecte
-    const usuario =await comprobarJWT(socket.handshake.headers['x-token']);
+    const usuario = await comprobarJWT(socket.handshake.headers['x-token']);
     // si el usuario no existe
-    if(!usuario){
+    if (!usuario) {
         // desconectamos el socket
         return socket.disconnect();
     }
-console.log( 'Se conecto: '.yellow, usuario.nombre)
+    console.log('Se conecto: '.yellow, usuario.nombre)
+
+    // agregamos el usuario al chat mensajes
+    chatMensajes.conectarUsuario(usuario);
+
+
+    // emitimos a todo el mundo la lista de usuarios
+    io.emit('usuarios-activos', chatMensajes.usuariosArr);
+
+    // si se desconecta un socket de usuario
+    socket.on('disconnect', () => {
+        // eliminar del arreglo cuando un usuario se desconecta
+        chatMensajes.desconectarUsuario(usuario.id);
+        // emitimos a todo el mundo la lista de usuarios
+        io.emit('usuarios-activos', chatMensajes.usuariosArr);
+    })
+
+
 }
 
 

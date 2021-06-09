@@ -101,7 +101,7 @@ class Server {
 
     // metodo para gestionar los sockets
     sockets(){
-       this.io.on("connection",socketController)
+       this.io.on("connection",(socket)=>  socketController(socket, this.io))
     }
 
     // funcion para arrancar el servidor por el puerto configurado
