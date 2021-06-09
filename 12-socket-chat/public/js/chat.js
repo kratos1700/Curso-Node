@@ -68,7 +68,8 @@ const conectarSocket = async () => {
     });
     // emitimos al server los mensajes recibidos y usuarios activos
     // cuando recibimos mensajes
-    socket.on('recibir-mensajes', () => {
+    socket.on('recibir-mensajes', (payload) => {
+        console.log(payload);
 
     });
     // para saber los usuarios activos y mostrarlos
@@ -84,10 +85,10 @@ const conectarSocket = async () => {
 }
 
 // funcion para mostrar los usuarios al html
-const mostrarUsuarios = (usuarios= []) => {
+const mostrarUsuarios = (usuarios = []) => {
     let userHtml = '';
     //  recorremos los usuarios
-    usuarios.forEach(({nombre, uid} ) => {
+    usuarios.forEach(({ nombre, uid }) => {
         // creamos una lista en html para mostrar los usuarios
         userHtml += `
       <li>
@@ -107,6 +108,27 @@ const mostrarUsuarios = (usuarios= []) => {
     ulUsuarios.innerHTML = userHtml;
 
 }
+
+// añadimos un evento listener
+txtMensaje.addEventListener('keyup', ({keyCode}) => {
+
+
+    const mensaje = txtMensaje.value;
+    const uid = txtUid.value;
+    // el keyCode es de la desestructuracion de ev, muestra el valos ascii del caracter, 13 es el Enter
+
+    if (keyCode !== 13) { return; }
+    // si no hay caracteres
+    if (mensaje.length === 0) { return; }
+
+    // enviamos el mensaje
+    socket.emit('enviar-mensaje', {mensaje, uid});
+
+
+
+    // console.log(ev);
+
+})
 
 
 const main = async () => {

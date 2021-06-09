@@ -34,6 +34,14 @@ const socketController = async (socket = new Socket(), io) => {
         io.emit('usuarios-activos', chatMensajes.usuariosArr);
     })
 
+    // enviamos mensajes
+    socket.on('enviar-mensaje', ({uid, mensaje}) => {
+        // enviamos el mensaje
+        chatMensajes.enviarMensaje(usuario.id, usuario.nombre,mensaje);
+
+        // enviamos la notificacion del envio de mensaje a todos y lo mostramos
+        io.emit('recibir-mensajes',chatMensajes.ultimos10);
+    })
 
 }
 
