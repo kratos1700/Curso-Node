@@ -36,7 +36,7 @@ const validarJWT = async () => {
 
 
     const { usuario: userDB, token: tokenDB } = await resp.json();
-   // console.log(userDB, tokenDB);
+    // console.log(userDB, tokenDB);
     // guardamos el nuevo token en el storage
     localStorage.setItem('token', tokenDB);
     // guardamos los datos del usuario  a la variable
@@ -73,8 +73,8 @@ const conectarSocket = async () => {
     socket.on('usuarios-activos', mostrarUsuarios);
 
     //para recibir mensajes probados
-    socket.on('mensaje-privado', () => {
-
+    socket.on('mensaje-privado', (payload) => {
+        console.log('Privado:', payload)
     });
 
 
@@ -140,7 +140,7 @@ const mostrarMensajes = (mensajes = []) => {
 
 
 // añadimos un evento listener
-txtMensaje.addEventListener('keyup', ({keyCode}) => {
+txtMensaje.addEventListener('keyup', ({ keyCode }) => {
 
 
     const mensaje = txtMensaje.value;
@@ -152,7 +152,7 @@ txtMensaje.addEventListener('keyup', ({keyCode}) => {
     if (mensaje.length === 0) { return; }
 
     // enviamos el mensaje
-    socket.emit('enviar-mensaje', {mensaje, uid});
+    socket.emit('enviar-mensaje', { mensaje, uid });
 
 
 
