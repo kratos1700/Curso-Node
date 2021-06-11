@@ -2,9 +2,12 @@
 Curso para aprender NodeJs
 
 
-# ResServer
 
-Parte del modulo 8 del curso de Node Js de 0 a Experto
+# ResServer SocketServer
+
+Parte del modulo  del curso de Node Js de 0 a Experto
+
+<p>Chat con sockets </p>
 
 <h2>Documentacion generada en Postman</h2>
 <p>https://documenter.getpostman.com/view/15848244/TzRYcjov </p>
