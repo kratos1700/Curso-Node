@@ -161,6 +161,14 @@ txtMensaje.addEventListener('keyup', ({ keyCode }) => {
 })
 
 
+btnSalir.addEventListener('click', ev =>{
+    // guardamos el nuevo token en el storage
+    localStorage.setItem('token', '');
+     // nos redirecciona a la pantalla de principal
+     window.location= 'index.html';
+})
+
+
 const main = async () => {
 
     // validar JWT
