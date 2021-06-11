@@ -36,7 +36,7 @@ const validarJWT = async () => {
 
 
     const { usuario: userDB, token: tokenDB } = await resp.json();
-    console.log(userDB, tokenDB);
+   // console.log(userDB, tokenDB);
     // guardamos el nuevo token en el storage
     localStorage.setItem('token', tokenDB);
     // guardamos los datos del usuario  a la variable
@@ -68,10 +68,7 @@ const conectarSocket = async () => {
     });
     // emitimos al server los mensajes recibidos y usuarios activos
     // cuando recibimos mensajes
-    socket.on('recibir-mensajes', (payload) => {
-        console.log(payload);
-
-    });
+    socket.on('recibir-mensajes', mostrarMensajes);
     // para saber los usuarios activos y mostrarlos
     socket.on('usuarios-activos', mostrarUsuarios);
 
@@ -108,6 +105,39 @@ const mostrarUsuarios = (usuarios = []) => {
     ulUsuarios.innerHTML = userHtml;
 
 }
+
+
+
+
+
+// funcion para mostrar los usuarios al html
+const mostrarMensajes = (mensajes = []) => {
+    let mensajesHtml = '';
+    //  recorremos los usuarios
+    mensajes.forEach(({ nombre, mensaje }) => {
+        // creamos una lista en html para mostrar los usuarios
+        mensajesHtml += `
+      <li>
+        <p>
+            <span class="text-primary">${nombre}: </span>
+            <span>${mensaje} </span>
+        </p>
+
+      </li>
+      
+      
+      `;
+
+    });
+
+    // lo mostramos a chat.html
+    ulMensajes.innerHTML = mensajesHtml;
+
+}
+
+
+
+
 
 // añadimos un evento listener
 txtMensaje.addEventListener('keyup', ({keyCode}) => {

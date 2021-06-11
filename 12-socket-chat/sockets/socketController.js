@@ -21,6 +21,9 @@ const socketController = async (socket = new Socket(), io) => {
 
     // agregamos el usuario al chat mensajes
     chatMensajes.conectarUsuario(usuario);
+    
+    // cuando un usuarios se conecta le mandamos los mensajes del backend
+    socket.emit('recibir-mensajes',chatMensajes.ultimos10)
 
 
     // emitimos a todo el mundo la lista de usuarios
