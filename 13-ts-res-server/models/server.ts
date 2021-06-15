@@ -7,6 +7,8 @@ import express, {Application} from 'express';
 
 import userRutas from '../routes/usuario';
 
+import cors from 'cors';
+
 
 class Server {
 
@@ -23,11 +25,27 @@ class Server {
         this.app = express();
         // la variable no puede ser nula , en caso de serlo por defecto se asigna el puerto 8000
         this.port = process.env.PORT || '8080';
+        // ejecutamos los middlewares
+        this.middlewares();
         // define mis rutas
         this.routes();
     }
 
+    // conectar bbdd
 
+
+    // metodo para los middlewares, funciones que se ejecutan antes de las rutas 
+    middlewares(){
+        //CORS
+        this.app.use(cors());
+
+        //lectura del body para pharsearlo
+        this.app.use(express.json());
+
+        // configurando carpeta publica para mostrar contenido estatico
+        this.app.use(express.static('public'));
+
+    }
 
     // metodo para las rutas
     routes(){
