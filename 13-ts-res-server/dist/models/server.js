@@ -2,6 +2,15 @@
 /**
  * Clase Server con TypeScript
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -10,6 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
 const cors_1 = __importDefault(require("cors"));
+const connection_1 = __importDefault(require("../db/connection"));
 class Server {
     constructor() {
         // objeto para las rutas
@@ -19,12 +29,25 @@ class Server {
         this.app = express_1.default();
         // la variable no puede ser nula , en caso de serlo por defecto se asigna el puerto 8000
         this.port = process.env.PORT || '8080';
+        //conectamos a la bbdd
+        this.dbConnection();
         // ejecutamos los middlewares
         this.middlewares();
         // define mis rutas
         this.routes();
     }
     // conectar bbdd
+    dbConnection() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield connection_1.default.authenticate();
+                console.log('BBDD conectada!');
+            }
+            catch (error) {
+                throw new Error(error);
+            }
+        });
+    }
     // metodo para los middlewares, funciones que se ejecutan antes de las rutas 
     middlewares() {
         //CORS

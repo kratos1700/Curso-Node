@@ -9,6 +9,8 @@ import userRutas from '../routes/usuario';
 
 import cors from 'cors';
 
+import db from '../db/connection';
+
 
 class Server {
 
@@ -25,6 +27,8 @@ class Server {
         this.app = express();
         // la variable no puede ser nula , en caso de serlo por defecto se asigna el puerto 8000
         this.port = process.env.PORT || '8080';
+        //conectamos a la bbdd
+        this.dbConnection();
         // ejecutamos los middlewares
         this.middlewares();
         // define mis rutas
@@ -32,6 +36,18 @@ class Server {
     }
 
     // conectar bbdd
+    async dbConnection(){
+
+        try {
+            await db.authenticate();
+            console.log('BBDD conectada!')
+            
+        } catch (error) {
+            throw new Error(error);
+            
+        }
+
+    }
 
 
     // metodo para los middlewares, funciones que se ejecutan antes de las rutas 
