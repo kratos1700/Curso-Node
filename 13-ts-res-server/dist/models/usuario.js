@@ -14,7 +14,7 @@ const Usuario = connection_1.default.define('Usuario', {
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
-    }
+    },
 });
 exports.default = Usuario;
 //# sourceMappingURL=usuario.js.map
