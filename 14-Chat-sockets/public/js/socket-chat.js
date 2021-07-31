@@ -1,14 +1,15 @@
 var socket = io();
 
 var params =new URLSearchParams(window.location.search);
-if (!params.has('nombre')){
+if (!params.has('nombre') || !params.has('sala')){
     // redireccionamos al index.html
     window.location= 'index.html';
-    throw new Error('El nombre es necesario');
+    throw new Error('El nombre y sala son necesarios');
 }
 // creamos el usuario recibiendo el nombre del parametro ( ...chat.html?nombre=pepet)
 var usuario ={
-    nombre:params.get('nombre')
+    nombre:params.get('nombre'),
+    sala:params.get('sala')
 };
 
 socket.on('connect', function() {

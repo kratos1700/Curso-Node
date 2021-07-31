@@ -6,12 +6,12 @@ class Usuarios {
     }
 
     // agregamos persona al arreglo pasando id y nombre
-    agregarPersona(id, nombre) {
-        let persona = { id, nombre };
+    agregarPersona(id, nombre, sala) {
+        let persona = { id, nombre, sala };
         // agregamos la persona
         this.personas.push(persona);
         //retornamos las personas
-        return this.personas; 
+        return this.personas;
     }
 
     //obtenemos la persona por id
@@ -20,26 +20,28 @@ class Usuarios {
         // le pasamos la primera posicion [0]
         let persona = this.personas.filter(persona =>
             persona.id === id)[0];
-            return persona;
+        return persona;
     }
 
     //retornamos todas las personas
-    getPersonas(){
+    getPersonas() {
         return this.personas
     }
     //obtenemos las personas por salas
-    getPersonasPorSala(sala){
+    getPersonasPorSala(sala) {
+        let personasEnSalas = this.personas.filter(persona => persona.sala === sala );
+        return personasEnSalas;
 
     }
     // eliminamos la persona del arreglo por id
-    borrarPersona(id){
+    borrarPersona(id) {
         // estas linias son lo mismo
-       /* this.personas= this.personas.filter(persona =>{
-            return persona.id !=id
-        }); */
+        /* this.personas= this.personas.filter(persona =>{
+             return persona.id !=id
+         }); */
         let personaBorrada = this.getPersona(id);
 
-        this.personas= this.personas.filter(persona =>persona.id !=id);
+        this.personas = this.personas.filter(persona => persona.id != id);
         // retornamos la persona borrada
         return personaBorrada;
     }

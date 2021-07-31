@@ -9,21 +9,24 @@ io.on('connection', (client) => {
     // recibimos el listener de la conexion de un usuario
     client.on('entrarChat', (data, callback) => {
 
-        if (!data.nombre) {
+        if (!data.nombre || !data.sala) {
             return callback({
                 error: true,
-                mensaje: 'El nombre es necesario'
+                mensaje: 'El nombre/sala es necesario'
             });
 
         }
+        // para comprobar los usuarios en la misma sala reciban los mensajes
+        client.join(data.sala);
         //agregamos el usuario al arreglo. el id lo sacamos de la conexion client
         // que es unico
-        let personas = usuarios.agregarPersona(client.id, data.nombre);
+        usuarios.agregarPersona(client.id, data.nombre, data.sala);
 
-        // creamos una notificacion a los demas usuarios que alguien se ha conetado
-        client.broadcast.emit('listaPersona', usuarios.getPersonas());
+        // creamos una notificacion a los demas usuarios que alguien se ha conetado dentro de la misma
+        // sala de chat. se hace con el .to(parametroSala)
+        client.broadcast.to(data.sala).emit('listaPersona', usuarios.getPersonasPorSala(data.sala));
         // retornamos las personas del chat
-        callback(personas);
+        callback(usuarios.getPersonasPorSala(data.sala));
     });
 
 
@@ -34,7 +37,7 @@ io.on('connection', (client) => {
         // recuperamos los datos para crear el mensaje
         let mensaje = crearMensaje(persona.nombre, data.mensaje);
         // nofificamos los mensajes a los otros usuarios
-        client.broadcast.emit('crearMensaje', mensaje);
+        client.broadcast.to(persona.sala).emit('crearMensaje', mensaje);
 
 
     });
@@ -47,9 +50,9 @@ io.on('connection', (client) => {
         //borramos el usuario pasandole el id de la conexion del cliente
         let personaBorrada = usuarios.borrarPersona(client.id);
         // emitimos un evento a los usuarios
-        client.broadcast.emit('crearMensaje',crearMensaje('Administrador',`${personaBorrada.nombre} abandonó el chat.`));
+        client.broadcast.to(personaBorrada.sala).emit('crearMensaje',crearMensaje('Administrador',`${personaBorrada.nombre} abandonó el chat.`));
         // creamos una notificacion a los demas usuarios que alguien se ha conetado
-        client.broadcast.emit('listaPersona', usuarios.getPersonas());
+        client.broadcast.to(personaBorrada.sala).emit('listaPersona', usuarios.getPersonasPorSala(personaBorrada.sala));
 
     })
 
