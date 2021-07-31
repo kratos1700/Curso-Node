@@ -29,8 +29,10 @@ io.on('connection', (client) => {
 
     // controlamos el envio de mensajes de los usuarios
     client.on('crearMensaje',(data)=>{
+        //obtenemos el usuario para pasar el nombre al mensaje
+        let persona = usuarios.getPersona(client.id);
         // recuperamos los datos para crear el mensaje
-        let mensaje = crearMensaje(data.nombre, data.mensaje);
+        let mensaje = crearMensaje(persona.nombre, data.mensaje);
         // nofificamos los mensajes a los otros usuarios
         client.broadcast.emit('crearMensaje', mensaje);
 
@@ -49,6 +51,19 @@ io.on('connection', (client) => {
         // creamos una notificacion a los demas usuarios que alguien se ha conetado
         client.broadcast.emit('listaPersona', usuarios.getPersonas());
 
+    })
+
+
+    /**
+     * MENSAJES PRIVADOS
+     */
+
+    client.on('mensajePrivado',data =>{
+        //persona que manda el mensaje
+        let persona = usuarios.getPersona(client.id);
+
+        // enviamos el mensaje al usuario en concreto utilizando el .to(parametro) en este caso el id de la conexion
+        client.broadcast.to(data.para).emit('mensajePrivado',crearMensaje(persona.nombre,data.mensaje));
     })
 
 });
