@@ -25,19 +25,29 @@ io.on('connection', (client) => {
         // creamos una notificacion a los demas usuarios que alguien se ha conetado dentro de la misma
         // sala de chat. se hace con el .to(parametroSala)
         client.broadcast.to(data.sala).emit('listaPersona', usuarios.getPersonasPorSala(data.sala));
+
+
+
+        // emitimos un evento a los usuarios
+        client.broadcast.to(data.sala).emit('crearMensaje',crearMensaje('Administrador',`${data.nombre} se unió al chat.`));
+
         // retornamos las personas del chat
         callback(usuarios.getPersonasPorSala(data.sala));
     });
 
 
     // controlamos el envio de mensajes de los usuarios
-    client.on('crearMensaje',(data)=>{
+    client.on('crearMensaje',(data,callback)=>{
         //obtenemos el usuario para pasar el nombre al mensaje
         let persona = usuarios.getPersona(client.id);
         // recuperamos los datos para crear el mensaje
         let mensaje = crearMensaje(persona.nombre, data.mensaje);
         // nofificamos los mensajes a los otros usuarios
         client.broadcast.to(persona.sala).emit('crearMensaje', mensaje);
+
+       
+
+        callback(mensaje);
 
 
     });
